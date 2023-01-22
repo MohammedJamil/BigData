@@ -1,8 +1,10 @@
 package org.bigdata;
 
+import org.apache.hadoop.io.Writable;
+
 import java.util.Objects;
 
-public class CameraNormalizer implements Normalizer{
+public class CameraNormalizer implements Normalizer {
 
     /**
      * Class Attributes
@@ -43,6 +45,13 @@ public class CameraNormalizer implements Normalizer{
         }
     }
 
+    private boolean isValidDirectionTokenP20(String token) {
+         return Objects.equals(token, "E") ||
+                 Objects.equals(token, "S1") ||
+                 Objects.equals(token, "S2") ||
+                 Objects.equals(token, "S3");
+    }
+
     /**
      * Checks if a record is valid.
      */
@@ -58,18 +67,24 @@ public class CameraNormalizer implements Normalizer{
             return false;
         }
 
-        if (tokens.length == 5 && Objects.equals(tokens[3], "") && Objects.equals(tokens[4], "")){
+        if (!Objects.equals(station, "P20") && tokens.length == 5 && Objects.equals(tokens[3], "") && Objects.equals(tokens[4], "")){
             return false;
         }
-        if (tokens.length == 5 && !Objects.equals(tokens[3], "") && !Objects.equals(tokens[4], "")) {
+        if (!Objects.equals(station, "P20") && tokens.length == 5 && !Objects.equals(tokens[3], "") && !Objects.equals(tokens[4], "")) {
             return false;
         }
-        if (tokens.length == 4 && Objects.equals(tokens[3], "")) {
+        if (!Objects.equals(station, "P20") && tokens.length == 4 && Objects.equals(tokens[3], "")) {
             return false;
         }
-        //check if date is valid
+
+        //P20 condition added
+        if (Objects.equals(station, "P20") && !isValidDirectionTokenP20(tokens[3]) && !isValidDirectionTokenP20(tokens[4])){
+            return false;
+        }
+
         return true;
     }
+
 
     /**
      * Normalize records captured by P1
@@ -83,12 +98,81 @@ public class CameraNormalizer implements Normalizer{
     }
 
     /**
+     * Normalize records captured by P10
+     */
+    public String normalizeP10(String record){
+        String[] tokens = record.split(",");
+        String category = vehicleCategory(tokens[1]);
+        String date = tokens[2].split("\\.")[0];
+        String direction = Objects.equals(tokens[3], "") ? "vers Sortie" : "vers Entrée";
+        return "P10" + "," + date + "," + category + "," + direction + "," + "";
+    }
+
+    /**
+     * Normalize records captured by P12
+     */
+    public String normalizeP12(String record){
+        String[] tokens = record.split(",");
+        String category = vehicleCategory(tokens[1]);
+        String date = tokens[2].split("\\.")[0];
+        String direction = Objects.equals(tokens[3], "") ? "Sortant" : "Entrant";
+        return "P12" + "," + date + "," + category + "," + direction + "," + "";
+    }
+
+    /**
+     * Normalize records captured by P13
+     */
+    public String normalizeP13(String record){
+        String[] tokens = record.split(",");
+        String category = vehicleCategory(tokens[1]);
+        String date = tokens[2].split("\\.")[0];
+        String direction = Objects.equals(tokens[3], "") ? "vers carrefour à feux Av Roul" : "vers bibliothèque";
+        return "P12" + "," + date + "," + category + "," + direction + "," + "";
+    }
+
+    /**
+     * Normalize records captured by P20
+     */
+    public String normalizeP20(String record){
+        String[] tokens = record.split(",");
+        String category = vehicleCategory(tokens[1]);
+        String date = tokens[2].split("\\.")[0];
+        String direction = "";
+        if (Objects.equals(tokens[4],"E")){
+            direction="Entrée du site";
+        }
+        else if(Objects.equals(tokens[4],"S1")){
+            direction="vers parking cafeteria";
+        }
+        else if (Objects.equals(tokens[4],"S2")){
+            direction="Avenue Léon Duguit";
+        }
+        else if(Objects.equals(tokens[4],"S3")){
+            direction="vers parking des professeurs";
+        }
+        return "P20" + "," + date + "," + category + "," + direction + "," + "";
+    }
+
+    /**
      * Normalizes records captured by a Camera.
      */
     public String normalize(String record) {
         if (Objects.equals(station,"P1")) {
             return normalizeP1(record);
         }
+        else if (Objects.equals(station,"P10")) {
+            return normalizeP10(record);
+        }
+        else if (Objects.equals(station,"P12")) {
+            return normalizeP12(record);
+        }
+        else if (Objects.equals(station,"P13")) {
+            return normalizeP13(record);
+        }
+        else if (Objects.equals(station,"P20")){
+            return normalizeP20(record);
+        }
+
         return null;
     }
 }
