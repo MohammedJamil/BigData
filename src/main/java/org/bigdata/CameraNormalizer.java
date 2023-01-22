@@ -1,7 +1,5 @@
 package org.bigdata;
 
-import org.apache.hadoop.io.Writable;
-
 import java.util.Objects;
 
 public class CameraNormalizer implements Normalizer {
@@ -36,20 +34,20 @@ public class CameraNormalizer implements Normalizer {
      * Returns category.
      */
      private String vehicleCategory(String c) {
-        if (Objects.equals(c, "PL_1") || Objects.equals(c, "PL_2")) {
+        if (Objects.equals(c, "PL_1") || Objects.equals(c, "PL_2") || Objects.equals(c, "UT") || Objects.equals(c, "BUS")) {
             return "PL";
-        } else if (Objects.equals(c, "VELO") || Objects.equals(c, "MOTO")) {
-            return "2RM";
+        } else if (Objects.equals(c, "MOTO") || Objects.equals(c, "VELO") || Objects.equals(c, "EDPM")) {
+            return "2R";
         } else {
             return c;
         }
     }
 
-    private boolean isValidDirectionTokenP20(String token) {
-         return Objects.equals(token, "E") ||
-                 Objects.equals(token, "S1") ||
-                 Objects.equals(token, "S2") ||
-                 Objects.equals(token, "S3");
+    private boolean isInvalidDirectionTokenP20(String token) {
+         return !Objects.equals(token, "E") &&
+                 !Objects.equals(token, "S1") &&
+                 !Objects.equals(token, "S2") &&
+                 !Objects.equals(token, "S3");
     }
 
     /**
@@ -78,7 +76,7 @@ public class CameraNormalizer implements Normalizer {
         }
 
         //P20 condition added
-        if (Objects.equals(station, "P20") && !isValidDirectionTokenP20(tokens[3]) && !isValidDirectionTokenP20(tokens[4])){
+        if (Objects.equals(station, "P20") && isInvalidDirectionTokenP20(tokens[3]) && isInvalidDirectionTokenP20(tokens[4])){
             return false;
         }
 
@@ -94,7 +92,7 @@ public class CameraNormalizer implements Normalizer {
         String category = vehicleCategory(tokens[1]);
         String date = tokens[2].split("\\.")[0];
         String direction = Objects.equals(tokens[3], "") ? "vers Cours de la liberation" : "vers CROUS";
-        return "P1" + "," + date + "," + category + "," + direction + "," + "";
+        return station + "," + date + "," + category + "," + direction + "," + "";
     }
 
     /**
@@ -105,7 +103,7 @@ public class CameraNormalizer implements Normalizer {
         String category = vehicleCategory(tokens[1]);
         String date = tokens[2].split("\\.")[0];
         String direction = Objects.equals(tokens[3], "") ? "vers Sortie" : "vers Entrée";
-        return "P10" + "," + date + "," + category + "," + direction + "," + "";
+        return station + "," + date + "," + category + "," + direction + "," + "";
     }
 
     /**
@@ -116,7 +114,7 @@ public class CameraNormalizer implements Normalizer {
         String category = vehicleCategory(tokens[1]);
         String date = tokens[2].split("\\.")[0];
         String direction = Objects.equals(tokens[3], "") ? "Sortant" : "Entrant";
-        return "P12" + "," + date + "," + category + "," + direction + "," + "";
+        return station + "," + date + "," + category + "," + direction + "," + "";
     }
 
     /**
@@ -127,7 +125,7 @@ public class CameraNormalizer implements Normalizer {
         String category = vehicleCategory(tokens[1]);
         String date = tokens[2].split("\\.")[0];
         String direction = Objects.equals(tokens[3], "") ? "vers carrefour à feux Av Roul" : "vers bibliothèque";
-        return "P12" + "," + date + "," + category + "," + direction + "," + "";
+        return station + "," + date + "," + category + "," + direction + "," + "";
     }
 
     /**
@@ -150,7 +148,7 @@ public class CameraNormalizer implements Normalizer {
         else if(Objects.equals(tokens[4],"S3")){
             direction="vers parking des professeurs";
         }
-        return "P20" + "," + date + "," + category + "," + direction + "," + "";
+        return station + "," + date + "," + category + "," + direction + "," + "";
     }
 
     /**
@@ -169,10 +167,8 @@ public class CameraNormalizer implements Normalizer {
         else if (Objects.equals(station,"P13")) {
             return normalizeP13(record);
         }
-        else if (Objects.equals(station,"P20")){
+        else {
             return normalizeP20(record);
         }
-
-        return null;
     }
 }

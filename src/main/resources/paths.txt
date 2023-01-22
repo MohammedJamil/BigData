@@ -1,5 +1,2 @@
-P1,P1.csv
-P10,P10.csv
-P12,P12.csv
-P13,P13.csv
-P20,P20.csv
+P2,P2_semaine_1.csv
+P2,P2_semaine_2.csv
