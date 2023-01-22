@@ -32,7 +32,7 @@ public class DataNormalizer {
             case VIKINGS:
                 return new VikingNormalizer();
             case TAGMASTER:
-                return new TagMasterNormalizer();
+                return new TagMasterNormalizer(station);
             default:
                 throw new InvalidParameterException("Invalid Station : " + station);
         }
