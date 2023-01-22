@@ -1,8 +1,10 @@
 package org.bigdata;
 
+import org.apache.hadoop.io.Writable;
+
 import java.util.Objects;
 
-public class CameraNormalizer implements Normalizer{
+public class CameraNormalizer implements Normalizer {
 
     /**
      * Class Attributes
@@ -43,6 +45,13 @@ public class CameraNormalizer implements Normalizer{
         }
     }
 
+    private boolean isValidDirectionTokenP20(String token) {
+         return Objects.equals(token, "E") ||
+                 Objects.equals(token, "S1") ||
+                 Objects.equals(token, "S2") ||
+                 Objects.equals(token, "S3");
+    }
+
     /**
      * Checks if a record is valid.
      */
@@ -58,22 +67,21 @@ public class CameraNormalizer implements Normalizer{
             return false;
         }
 
-        if (tokens.length == 5 && Objects.equals(tokens[3], "") && Objects.equals(tokens[4], "")){
+        if (!Objects.equals(station, "P20") && tokens.length == 5 && Objects.equals(tokens[3], "") && Objects.equals(tokens[4], "")){
             return false;
         }
-        if (tokens.length == 5 && !Objects.equals(tokens[3], "") && !Objects.equals(tokens[4], "")) {
+        if (!Objects.equals(station, "P20") && tokens.length == 5 && !Objects.equals(tokens[3], "") && !Objects.equals(tokens[4], "")) {
             return false;
         }
-        if (tokens.length == 4 && Objects.equals(tokens[3], "")) {
+        if (!Objects.equals(station, "P20") && tokens.length == 4 && Objects.equals(tokens[3], "")) {
             return false;
         }
 
         //P20 condition added
-        if (tokens.length == 6 && Objects.equals(tokens[3], "") && Objects.equals(tokens[4], "")){
+        if (Objects.equals(station, "P20") && !isValidDirectionTokenP20(tokens[3]) && !isValidDirectionTokenP20(tokens[4])){
             return false;
         }
 
-        //check if date is valid
         return true;
     }
 
@@ -145,9 +153,6 @@ public class CameraNormalizer implements Normalizer{
         return "P20" + "," + date + "," + category + "," + direction + "," + "";
     }
 
-
-
-
     /**
      * Normalizes records captured by a Camera.
      */
@@ -167,7 +172,6 @@ public class CameraNormalizer implements Normalizer{
         else if (Objects.equals(station,"P20")){
             return normalizeP20(record);
         }
-
 
         return null;
     }
