@@ -30,7 +30,7 @@ public class DataNormalizer {
             case MIXTRA:
                 return new MixtraNormalizer();
             case VIKINGS:
-                return new VikingNormalizer();
+                return new VikingNormalizer(station);
             case TAGMASTER:
                 return new TagMasterNormalizer(station);
             default:

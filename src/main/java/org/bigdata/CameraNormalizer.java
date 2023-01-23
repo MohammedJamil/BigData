@@ -83,7 +83,6 @@ public class CameraNormalizer implements Normalizer {
         return true;
     }
 
-
     /**
      * Normalize records captured by P1
      */
@@ -91,7 +90,7 @@ public class CameraNormalizer implements Normalizer {
         String[] tokens = record.split(",");
         String category = vehicleCategory(tokens[1]);
         String date = tokens[2].split("\\.")[0];
-        String direction = Objects.equals(tokens[3], "") ? "vers Cours de la liberation" : "vers CROUS";
+        String direction = Objects.equals(tokens[3], "") ? "vers cours de la liberation" : "vers crous";
         return station + "," + date + "," + category + "," + direction + "," + "";
     }
 
@@ -102,7 +101,7 @@ public class CameraNormalizer implements Normalizer {
         String[] tokens = record.split(",");
         String category = vehicleCategory(tokens[1]);
         String date = tokens[2].split("\\.")[0];
-        String direction = Objects.equals(tokens[3], "") ? "vers Sortie" : "vers Entrée";
+        String direction = Objects.equals(tokens[3], "") ? "vers sortie fac" : "vers entree fac";
         return station + "," + date + "," + category + "," + direction + "," + "";
     }
 
@@ -113,7 +112,7 @@ public class CameraNormalizer implements Normalizer {
         String[] tokens = record.split(",");
         String category = vehicleCategory(tokens[1]);
         String date = tokens[2].split("\\.")[0];
-        String direction = Objects.equals(tokens[3], "") ? "Sortant" : "Entrant";
+        String direction = Objects.equals(tokens[3], "") ? "vers sortie fac" : "vers entree fac";
         return station + "," + date + "," + category + "," + direction + "," + "";
     }
 
@@ -124,7 +123,7 @@ public class CameraNormalizer implements Normalizer {
         String[] tokens = record.split(",");
         String category = vehicleCategory(tokens[1]);
         String date = tokens[2].split("\\.")[0];
-        String direction = Objects.equals(tokens[3], "") ? "vers carrefour à feux Av Roul" : "vers bibliothèque";
+        String direction = Objects.equals(tokens[3], "") ? "vers carrefour à feux av Roul" : "vers bibliotheque";
         return station + "," + date + "," + category + "," + direction + "," + "";
     }
 
@@ -137,13 +136,13 @@ public class CameraNormalizer implements Normalizer {
         String date = tokens[2].split("\\.")[0];
         String direction = "";
         if (Objects.equals(tokens[4],"E")){
-            direction="Entrée du site";
+            direction="entree du site";
         }
         else if(Objects.equals(tokens[4],"S1")){
             direction="vers parking cafeteria";
         }
         else if (Objects.equals(tokens[4],"S2")){
-            direction="Avenue Léon Duguit";
+            direction="vers avenue leon duguit";
         }
         else if(Objects.equals(tokens[4],"S3")){
             direction="vers parking des professeurs";

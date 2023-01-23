@@ -28,7 +28,6 @@ public class TagMasterNormalizer implements Normalizer{
         }
     }
 
-
     /**
      * Checks if record is valid.
      */
