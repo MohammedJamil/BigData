@@ -16,6 +16,9 @@ public class VikingNormalizer implements Normalizer{
         this.station = station;
     }
 
+    /**
+     *
+     */
     private String vehicleCategory(String c) {
         if (Objects.equals(c, "PL/Bus")) {
             return "PL";
@@ -61,7 +64,7 @@ public class VikingNormalizer implements Normalizer{
         String hour = (tokens[2].length() == 3) ? "0" + tokens[2].charAt(0) : tokens[2].substring(0, 2);
         String minute = (tokens[2].length() == 3) ? tokens[2].substring(1) : tokens[2].substring(2);
         String second = (tokens[3].length() == 3) ? "0" + tokens[3].charAt(0) : tokens[3].substring(0, 2);
-        String date = day + "/10/2022" + " " + hour + ":" + minute + ":" + second;
+        String date = "2022/10/" + day + " " + hour + ":" + minute + ":" + second;
         String direction;
         if (Objects.equals(station, "P4")) {
             direction = (Objects.equals(tokens[0], "2")) ? "vers sortie" : "vers entree";
@@ -70,7 +73,7 @@ public class VikingNormalizer implements Normalizer{
         } else {
             direction = (Objects.equals(tokens[0], "1")) ? "vers avenue schweitzer" : "vers p16";
         }
-        String speed = tokens[4].substring(2);
+        String speed = Objects.equals(tokens[4].split("")[0], "0") ? tokens[4].substring(2) : tokens[4].substring(3);
         return station + "," + date + "," + category + "," + direction + "," + speed;
     }
 }

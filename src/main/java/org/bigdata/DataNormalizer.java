@@ -18,17 +18,18 @@ import org.apache.hadoop.mapreduce.lib.input.FileSplit;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 import org.apache.hadoop.mapreduce.lib.input.TextInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.TextOutputFormat;
+import org.apache.jute.compiler.JFile;
 
 enum StationType {CAMERA, MIXTRA, VIKINGS, TAGMASTER, UNKNOWN}
 
 public class DataNormalizer {
 
-    public static Normalizer initializeNormalizer(String station) {
+    public static Normalizer initializeNormalizer(String station, String fileName) {
         switch (stationType(station)) {
             case CAMERA :
                 return new CameraNormalizer(station);
             case MIXTRA:
-                return new MixtraNormalizer();
+                return new MixtraNormalizer(station, fileName);
             case VIKINGS:
                 return new VikingNormalizer(station);
             case TAGMASTER:
@@ -89,7 +90,7 @@ public class DataNormalizer {
             String line = value.toString();
             Configuration conf = context.getConfiguration();
             String station = conf.get(fileName);
-            Normalizer normalizer  = DataNormalizer.initializeNormalizer(station);
+            Normalizer normalizer  = DataNormalizer.initializeNormalizer(station, fileName);
 
             if (normalizer.isValid(line)) {
                 nbRecord++;
