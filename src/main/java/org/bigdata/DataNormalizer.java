@@ -18,7 +18,7 @@ import org.apache.hadoop.mapreduce.lib.input.FileSplit;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 import org.apache.hadoop.mapreduce.lib.input.TextInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.TextOutputFormat;
-import org.apache.jute.compiler.JFile;
+import org.bigdata.normalizer.*;
 
 enum StationType {CAMERA, MIXTRA, VIKINGS, TAGMASTER, UNKNOWN}
 
@@ -76,7 +76,7 @@ public class DataNormalizer {
         return StationType.UNKNOWN;
     }
 
-    public static class myMapper extends Mapper<Object, Text, NullWritable, Text> {
+    public static class NormalizationMapper extends Mapper<Object, Text, NullWritable, Text> {
         public String fileName;
         private long nbRecord = 0;
         @Override
@@ -126,7 +126,7 @@ public class DataNormalizer {
         Job job = Job.getInstance(conf, "Good Job");
         job.setNumReduceTasks(1);
         job.setJarByClass(DataNormalizer.class);
-        job.setMapperClass(myMapper.class);
+        job.setMapperClass(NormalizationMapper.class);
         job.setMapOutputKeyClass(NullWritable.class);
         job.setMapOutputValueClass(Text.class);
         job.setReducerClass(Reducer.class);

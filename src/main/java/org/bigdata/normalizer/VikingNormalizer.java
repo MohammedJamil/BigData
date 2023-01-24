@@ -1,4 +1,4 @@
-package org.bigdata;
+package org.bigdata.normalizer;
 
 import java.util.Objects;
 
@@ -12,7 +12,7 @@ public class VikingNormalizer implements Normalizer{
     /**
      * Class Constructor.
      */
-    VikingNormalizer(String station) {
+    public VikingNormalizer(String station) {
         this.station = station;
     }
 

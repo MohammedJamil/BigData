@@ -1,4 +1,4 @@
-package org.bigdata;
+package org.bigdata.normalizer;
 
 public interface Normalizer {
     /**

@@ -1,4 +1,4 @@
-package org.bigdata;
+package org.bigdata.normalizer;
 
 import java.util.Objects;
 
@@ -11,7 +11,7 @@ public class TagMasterNormalizer implements Normalizer{
     /**
      * Class Constructor.
      */
-    TagMasterNormalizer(String station) {
+    public TagMasterNormalizer(String station) {
         this.station = station;
     }
 

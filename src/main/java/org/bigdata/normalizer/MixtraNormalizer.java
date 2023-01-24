@@ -1,4 +1,4 @@
-package org.bigdata;
+package org.bigdata.normalizer;
 
 import java.security.InvalidParameterException;
 import java.util.Objects;
@@ -14,7 +14,7 @@ public class MixtraNormalizer implements Normalizer{
     /**
      * Class Constructor.
      */
-    MixtraNormalizer(String station, String fileName) {
+    public MixtraNormalizer(String station, String fileName) {
         this.station = station;
 
         if (Objects.equals(fileName, "P9_Vers_Fac_1.csv") || Objects.equals(fileName, "P9_Vers_Fac_2.csv")){

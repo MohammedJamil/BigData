@@ -1,4 +1,4 @@
-package org.bigdata;
+package org.bigdata.normalizer;
 
 import java.util.Objects;
 
@@ -12,7 +12,7 @@ public class CameraNormalizer implements Normalizer {
     /**
      * Class Constructor.
      */
-    CameraNormalizer(String station) {
+    public CameraNormalizer(String station) {
         this.station = station;
     }
 
