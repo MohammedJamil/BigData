@@ -2,7 +2,6 @@ package org.bigdata.analyser;
 
 import org.apache.hadoop.io.Text;
 
-import java.util.ArrayList;
 import java.util.Objects;
 
 public class IOPerDayAnalyzer extends Analyzer{
@@ -30,7 +29,7 @@ public class IOPerDayAnalyzer extends Analyzer{
         }
     }
 
-    public static Iterable<Text> produce(Iterable<Text> values) {
+    public static Text produce(Iterable<Text> values) {
         int numberIn = 0;
         int numberOut = 0;
 
@@ -43,11 +42,6 @@ public class IOPerDayAnalyzer extends Analyzer{
             }
         }
 
-        ArrayList<Text> valuesList = new ArrayList<Text>();
-        valuesList.add(new Text(String.valueOf(numberIn)));
-        valuesList.add(new Text(String.valueOf(numberOut)));
-
-        return valuesList;
+        return new Text(numberIn + "," + numberOut);
     }
-
 }

@@ -123,7 +123,7 @@ public class CameraNormalizer implements Normalizer {
         String[] tokens = record.split(",");
         String category = vehicleCategory(tokens[1]);
         String date = tokens[2].split("\\.")[0];
-        String direction = Objects.equals(tokens[3], "") ? "vers carrefour à feux av Roul" : "vers bibliotheque";
+        String direction = Objects.equals(tokens[3], "") ? "vers av roul" : "vers bibliotheque";
         return station + "," + date + "," + category + "," + direction + "," + "";
     }
 

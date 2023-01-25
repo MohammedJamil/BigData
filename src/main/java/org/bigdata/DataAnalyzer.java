@@ -12,6 +12,8 @@ import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 import org.apache.hadoop.mapreduce.lib.output.TextOutputFormat;
 import org.bigdata.analyser.Analyzer;
 import org.bigdata.analyser.IOPerDayAnalyzer;
+import org.bigdata.analyser.IOPerHourAnalyzer;
+import org.bigdata.analyser.SpeedPerCatAnalyzer;
 
 import java.io.IOException;
 import java.security.InvalidParameterException;
@@ -22,16 +24,22 @@ public class DataAnalyzer {
     public static Analyzer initializeAnalyzer(String analysisId, String record) {
         if (Objects.equals(analysisId, "io_per_day")) {
             return new IOPerDayAnalyzer(record);
-        } if (Objects.equals(analysisId, "io_per_hour")) {
+        } else if (Objects.equals(analysisId, "io_per_hour")) {
             return new IOPerHourAnalyzer(record);
+        } else if (Objects.equals(analysisId, "speed_per_category")) {
+            return new SpeedPerCatAnalyzer(record);
         } else {
             throw new InvalidParameterException("Invalid analysis id : " + analysisId);
         }
     }
 
-    public static Iterable<Text> produce(String analysisId, Iterable<Text> values) {
+    public static Text produce(String analysisId, Iterable<Text> values) {
         if (Objects.equals(analysisId, "io_per_day")) {
             return IOPerDayAnalyzer.produce(values);
+        } else if (Objects.equals(analysisId, "io_per_hour")) {
+            return IOPerHourAnalyzer.produce(values);
+        } else if (Objects.equals(analysisId, "speed_per_category")) {
+            return SpeedPerCatAnalyzer.produce(values);
         } else {
             throw new InvalidParameterException("Invalid analysis id : " + analysisId);
         }
@@ -50,11 +58,11 @@ public class DataAnalyzer {
         }
     }
 
-    public static class AnalysisReducer extends Reducer<Text, Text, Text, Iterable<Text>> {
+    public static class AnalysisReducer extends Reducer<Text, Text, Text, Text> {
         public void reduce(Text key, Iterable<Text> values, Context context) throws IOException, InterruptedException {
             Configuration conf = context.getConfiguration();
             String analysisId = conf.get("analysis_id");
-            Iterable<Text> value = DataAnalyzer.produce(analysisId, values);
+            Text value = DataAnalyzer.produce(analysisId, values);
             context.write(key, value);
         }
     }
@@ -65,7 +73,7 @@ public class DataAnalyzer {
         }
         String sequenceFilePath = args[0];
         String outputDirectory = args[1];
-        String[] AnalysisArray = {"io_per_day", "io_per_hour"};
+        String[] AnalysisArray = {"io_per_day", "io_per_hour", "speed_per_category"};
 
         for(String analysisId : AnalysisArray) {
             Configuration conf = new Configuration();
