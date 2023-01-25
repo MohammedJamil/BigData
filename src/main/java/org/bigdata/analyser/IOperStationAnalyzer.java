@@ -18,12 +18,12 @@ public class IOperStationAnalyzer extends Analyzer {
     private void analyse(String record) {
         String[] tokens = record.split(",");
         String station = tokens[1];
-        String direction = tokens[4];
+        String io = tokens[6];
 
-        if(Objects.equals(direction, "vers sortie") || Objects.equals(direction, "vers entree")) {
+        if(Objects.equals(io, "out") || Objects.equals(io, "in")) {
             super.analyzable = true;
             super.key = station;
-            super.value = direction;
+            super.value = io;
         } else {
             super.analyzable = false;
         }
@@ -34,8 +34,8 @@ public class IOperStationAnalyzer extends Analyzer {
         int numberOut = 0;
 
         for (Text value : values) {
-            String direction = value.toString();
-            if (Objects.equals(direction, "vers entree")) {
+            String io = value.toString();
+            if (Objects.equals(io, "in")) {
                 numberIn++;
             } else {
                 numberOut++;

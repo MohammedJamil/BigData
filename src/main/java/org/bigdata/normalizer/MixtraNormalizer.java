@@ -11,6 +11,8 @@ public class MixtraNormalizer implements Normalizer{
     private final String station;
     private final String direction;
 
+    private final String io;
+
     /**
      * Class Constructor.
      */
@@ -18,34 +20,44 @@ public class MixtraNormalizer implements Normalizer{
         this.station = station;
 
         if (Objects.equals(fileName, "P9_Vers_Fac_1.csv") || Objects.equals(fileName, "P9_Vers_Fac_2.csv")){
-            this.direction = "vers entree";
+            this.direction = "entree";
+            this.io = "in";
         }
         else if (Objects.equals(fileName, "P9_Vers_Talence_1.csv") || Objects.equals(fileName, "P9_Vers_Talence_2.csv")){
-            this.direction = "vers talence";
+            this.direction = "talence";
+            this.io = "out";
         }
         else if (Objects.equals(fileName, "Mixtra_Sortie_Fac_1.csv") || Objects.equals(fileName, "Mixtra_Sortie_Fac_2.csv") || Objects.equals(fileName, "Mixtra_Sortie_Fac_3.csv")){
-            this.direction = "vers sortie";
+            this.direction = "sortie";
+            this.io = "out";
         }
         else if (Objects.equals(fileName, "P19_Entree.csv")){
-            this.direction = "vers entree";
+            this.direction = "entree";
+            this.io = "in";
         }
         else if (Objects.equals(fileName, "P19_Sortie.csv")){
-            this.direction = "vers sortie";
+            this.direction = "sortie";
+            this.io = "out";
         }
         else if (Objects.equals(fileName, "P23_Vers_BEC_1.csv") || Objects.equals(fileName, "P23_Vers_BEC_2.csv")){
-            this.direction = "vers bec";
+            this.direction = "bec";
+            this.io = "in";
         }
         else if (Objects.equals(fileName, "P23_Vers_COSEC.csv")){
-            this.direction = "vers cosec";
+            this.direction = "cosec";
+            this.io = "out";
         }
         else if (Objects.equals(fileName, "P24_Vers_Fac.csv")){
-            this.direction = "vers entree";
+            this.direction = "entree";
+            this.io = "in";
         }
         else if (Objects.equals(fileName, "P24_Vers_Rocade.csv") || Objects.equals(fileName, "P26_Vers_Rocade_1.csv") || Objects.equals(fileName, "P26_Vers_Rocade_2.csv")){
-            this.direction = "vers rocade";
+            this.direction = "rocade";
+            this.io = "out";
         }
         else if (Objects.equals(fileName, "P26_Vers_Fac_1.csv") || Objects.equals(fileName, "P26_Vers_Fac_2.csv") || Objects.equals(fileName, "P26_Vers_Fac_3.csv")){
-            this.direction = "vers entree";
+            this.direction = "entree";
+            this.io = "in";
         } else {
             throw new InvalidParameterException("File name invalid : " + fileName);
         }
@@ -103,6 +115,6 @@ public class MixtraNormalizer implements Normalizer{
         String second = ((tokens[2].length() == 1) ? "0" : "") + tokens[2];
         String date = year + "/" + month + "/" + day + " " + hour + ":" + minute + ":" + second;
         String speed = tokens[4];
-        return station + "," + date + "," + category + "," + direction + "," + speed;
+        return station + "," + date + "," + category + "," + direction + "," + speed + "," + io;
     }
 }

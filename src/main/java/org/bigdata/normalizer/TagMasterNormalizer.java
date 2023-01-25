@@ -48,8 +48,16 @@ public class TagMasterNormalizer implements Normalizer{
         String[] tokens = record.split(",");
         String category = vehicleCategory(tokens[7]);
         String date = tokens[0];
-        String direction = tokens[2];
+        String direction;
+        String io;
+        if (Objects.equals(tokens[2], "Sortie Fac")) {
+            direction = "sortie";
+            io = "out";
+        } else {
+            direction = "entree";
+            io = "in";
+        }
         String speed = tokens[3] + "." + tokens[4];
-        return station + "," + date + "," + category + "," + direction + "," + speed;
+        return station + "," + date + "," + category + "," + direction + "," + speed + "," + io;
     }
 }

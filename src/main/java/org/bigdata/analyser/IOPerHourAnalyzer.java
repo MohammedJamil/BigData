@@ -19,12 +19,12 @@ public class IOPerHourAnalyzer extends Analyzer{
         String[] tokens = record.split(",");
         String hhmmss = tokens[2].split(" ")[1];
         String hour = hhmmss.split(":")[0];
-        String direction = tokens[4];
+        String io = tokens[6];
 
-        if(Objects.equals(direction, "vers sortie") || Objects.equals(direction, "vers entree")) {
+        if(Objects.equals(io, "out") || Objects.equals(io, "in")) {
             super.analyzable = true;
             super.key = hour;
-            super.value = direction;
+            super.value = io;
         } else {
             super.analyzable = false;
         }
@@ -35,8 +35,8 @@ public class IOPerHourAnalyzer extends Analyzer{
         int numberOut = 0;
 
         for (Text value : values) {
-            String direction = value.toString();
-            if (Objects.equals(direction, "vers entree")) {
+            String io = value.toString();
+            if (Objects.equals(io, "in")) {
                 numberIn++;
             } else {
                 numberOut++;

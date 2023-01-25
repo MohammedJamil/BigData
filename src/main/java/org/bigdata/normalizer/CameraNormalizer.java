@@ -90,8 +90,9 @@ public class CameraNormalizer implements Normalizer {
         String[] tokens = record.split(",");
         String category = vehicleCategory(tokens[1]);
         String date = tokens[2].split("\\.")[0];
-        String direction = Objects.equals(tokens[3], "") ? "vers cours de la liberation" : "vers crous";
-        return station + "," + date + "," + category + "," + direction + "," + "";
+        String direction = Objects.equals(tokens[3], "") ? "cr_la_liberation" : "crous";
+        String io = Objects.equals(tokens[3], "") ? "out" : "in";
+        return station + "," + date + "," + category + "," + direction + "," + "" + "," + io;
     }
 
     /**
@@ -101,8 +102,9 @@ public class CameraNormalizer implements Normalizer {
         String[] tokens = record.split(",");
         String category = vehicleCategory(tokens[1]);
         String date = tokens[2].split("\\.")[0];
-        String direction = Objects.equals(tokens[3], "") ? "vers sortie fac" : "vers entree fac";
-        return station + "," + date + "," + category + "," + direction + "," + "";
+        String direction = Objects.equals(tokens[3], "") ? "sortie" : "entree";
+        String io = Objects.equals(tokens[3], "") ? "out" : "in";
+        return station + "," + date + "," + category + "," + direction + "," + "" + "," + io;
     }
 
     /**
@@ -112,8 +114,9 @@ public class CameraNormalizer implements Normalizer {
         String[] tokens = record.split(",");
         String category = vehicleCategory(tokens[1]);
         String date = tokens[2].split("\\.")[0];
-        String direction = Objects.equals(tokens[3], "") ? "vers sortie fac" : "vers entree fac";
-        return station + "," + date + "," + category + "," + direction + "," + "";
+        String direction = Objects.equals(tokens[3], "") ? "sortie" : "entree";
+        String io = Objects.equals(tokens[3], "") ? "out" : "in";
+        return station + "," + date + "," + category + "," + direction + "," + "" + "," + io;
     }
 
     /**
@@ -123,8 +126,9 @@ public class CameraNormalizer implements Normalizer {
         String[] tokens = record.split(",");
         String category = vehicleCategory(tokens[1]);
         String date = tokens[2].split("\\.")[0];
-        String direction = Objects.equals(tokens[3], "") ? "vers av roul" : "vers bibliotheque";
-        return station + "," + date + "," + category + "," + direction + "," + "";
+        String direction = Objects.equals(tokens[3], "") ? "av_roul" : "bibliotheque";
+        String io = Objects.equals(tokens[3], "") ? "out" : "in";
+        return station + "," + date + "," + category + "," + direction + "," + "" + "," + io;
     }
 
     /**
@@ -134,20 +138,42 @@ public class CameraNormalizer implements Normalizer {
         String[] tokens = record.split(",");
         String category = vehicleCategory(tokens[1]);
         String date = tokens[2].split("\\.")[0];
-        String direction = "";
+        String direction;
+        String io;
         if (Objects.equals(tokens[4],"E")){
-            direction="entree du site";
+            direction="av_schweitzer";
+            if (!Objects.equals(tokens[3],"E")) {
+                io = "out";
+            } else {
+                io = "no_io";
+            }
         }
         else if(Objects.equals(tokens[4],"S1")){
-            direction="vers parking cafeteria";
+            direction="parking_cafeteria";
+            if (Objects.equals(tokens[3],"E")) {
+                io = "in";
+            } else {
+                io = "no_io";
+            }
         }
         else if (Objects.equals(tokens[4],"S2")){
-            direction="vers avenue leon duguit";
+            direction="av_leon_duguit";
+            if (Objects.equals(tokens[3],"E")) {
+                io = "in";
+            } else {
+                io = "no_io";
+            }
         }
-        else if(Objects.equals(tokens[4],"S3")){
-            direction="vers parking des professeurs";
+        else {
+            direction="parking_des_professeurs";
+            if (Objects.equals(tokens[3],"E")) {
+                io = "in";
+            } else {
+                io = "no_io";
+            }
         }
-        return station + "," + date + "," + category + "," + direction + "," + "";
+
+        return station + "," + date + "," + category + "," + direction + "," + "" + "," + io;
     }
 
     /**

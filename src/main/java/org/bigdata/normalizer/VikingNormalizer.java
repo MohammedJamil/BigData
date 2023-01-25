@@ -66,14 +66,18 @@ public class VikingNormalizer implements Normalizer{
         String second = (tokens[3].length() == 3) ? "0" + tokens[3].charAt(0) : tokens[3].substring(0, 2);
         String date = "2022/10/" + day + " " + hour + ":" + minute + ":" + second;
         String direction;
+        String io;
         if (Objects.equals(station, "P4")) {
-            direction = (Objects.equals(tokens[0], "2")) ? "vers sortie" : "vers entree";
+            direction = (Objects.equals(tokens[0], "2")) ? "sortie" : "entree";
+            io = (Objects.equals(tokens[0], "2")) ? "out" : "in";
         } else if (Objects.equals(station, "P5")) {
-            direction = (Objects.equals(tokens[0].split("")[0],"E")) ? "vers entree" : "vers sortie";
+            direction = (Objects.equals(tokens[0].split("")[0],"E")) ? "entree" : "sortie";
+            io = (Objects.equals(tokens[0].split("")[0],"E")) ? "in" : "out";
         } else {
-            direction = (Objects.equals(tokens[0], "1")) ? "vers avenue schweitzer" : "vers p16";
+            direction = (Objects.equals(tokens[0], "1")) ? "av_schweitzer" : "p16";
+            io = (Objects.equals(tokens[0], "1")) ? "out" : "in";
         }
         String speed = Objects.equals(tokens[4].split("")[0], "0") ? tokens[4].substring(2) : tokens[4].substring(3);
-        return station + "," + date + "," + category + "," + direction + "," + speed;
+        return station + "," + date + "," + category + "," + direction + "," + speed + "," + io;
     }
 }
