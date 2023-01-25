@@ -7,8 +7,10 @@ import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.Mapper;
 import org.apache.hadoop.mapreduce.Reducer;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
+import org.apache.hadoop.mapreduce.lib.input.SequenceFileInputFormat;
 import org.apache.hadoop.mapreduce.lib.input.TextInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
+import org.apache.hadoop.mapreduce.lib.output.SequenceFileOutputFormat;
 import org.apache.hadoop.mapreduce.lib.output.TextOutputFormat;
 import org.bigdata.analyser.*;
 
@@ -103,8 +105,8 @@ public class DataAnalyzer {
             job.setReducerClass(AnalysisReducer.class);
             job.setOutputKeyClass(Text.class);
             job.setOutputValueClass(Text.class);
-            job.setOutputFormatClass(TextOutputFormat.class);
-            job.setInputFormatClass(TextInputFormat.class);
+            job.setOutputFormatClass(SequenceFileOutputFormat.class);
+            job.setInputFormatClass(SequenceFileInputFormat.class);
             FileInputFormat.addInputPath(job, new Path(sequenceFilePath));
             FileOutputFormat.setOutputPath(job, new Path(outputDirectory + "/" + analysisId));
             job.waitForCompletion(true);

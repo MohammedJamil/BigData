@@ -1,2 +1,6 @@
 P2,P2_semaine_1.csv
 P2,P2_semaine_2.csv
+P3,Mixtra_Sortie_Fac_1.csv
+P3,Mixtra_Sortie_Fac_2.csv
+P3,Mixtra_Sortie_Fac_3.csv
+P4,P4_Sortie_Fac.csv
