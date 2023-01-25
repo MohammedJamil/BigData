@@ -18,7 +18,7 @@ public class SpeedPerCatAnalyzer extends Analyzer{
     private void analyse(String record) {
         String[] tokens = record.split(",");
         String category = tokens[3];
-        String speed = (tokens.length == 6) ? tokens[5] : "";
+        String speed = tokens[5];
 
         super.analyzable = true;
         super.key = category;
