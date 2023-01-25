@@ -10,10 +10,7 @@ import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.input.TextInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 import org.apache.hadoop.mapreduce.lib.output.TextOutputFormat;
-import org.bigdata.analyser.Analyzer;
-import org.bigdata.analyser.IOPerDayAnalyzer;
-import org.bigdata.analyser.IOPerHourAnalyzer;
-import org.bigdata.analyser.SpeedPerCatAnalyzer;
+import org.bigdata.analyser.*;
 
 import java.io.IOException;
 import java.security.InvalidParameterException;
@@ -26,6 +23,10 @@ public class DataAnalyzer {
             return new IOPerDayAnalyzer(record);
         } else if (Objects.equals(analysisId, "io_per_hour")) {
             return new IOPerHourAnalyzer(record);
+        } else if (Objects.equals(analysisId, "io_per_category")) {
+            return new IOperCategoryAnalyzer(record);
+        } else if (Objects.equals(analysisId, "io_per_station")) {
+            return new IOperStationAnalyzer(record);
         } else if (Objects.equals(analysisId, "speed_per_category")) {
             return new SpeedPerCatAnalyzer(record);
         } else {
@@ -38,6 +39,10 @@ public class DataAnalyzer {
             return IOPerDayAnalyzer.produce(values);
         } else if (Objects.equals(analysisId, "io_per_hour")) {
             return IOPerHourAnalyzer.produce(values);
+        } else if (Objects.equals(analysisId, "io_per_category")) {
+            return IOperCategoryAnalyzer.produce(values);
+        } else if (Objects.equals(analysisId, "io_per_station")) {
+            return IOperStationAnalyzer.produce(values);
         } else if (Objects.equals(analysisId, "speed_per_category")) {
             return SpeedPerCatAnalyzer.produce(values);
         } else {
@@ -73,7 +78,13 @@ public class DataAnalyzer {
         }
         String sequenceFilePath = args[0];
         String outputDirectory = args[1];
-        String[] AnalysisArray = {"io_per_day", "io_per_hour", "speed_per_category"};
+        String[] AnalysisArray = {
+                "io_per_day",
+                "io_per_hour",
+                "io_per_category",
+                "io_per_station",
+                "speed_per_category"
+        };
 
         for(String analysisId : AnalysisArray) {
             Configuration conf = new Configuration();

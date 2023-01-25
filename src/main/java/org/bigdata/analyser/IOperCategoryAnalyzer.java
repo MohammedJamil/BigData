@@ -4,11 +4,11 @@ import org.apache.hadoop.io.Text;
 
 import java.util.Objects;
 
-public class IOperStationAnalyzer extends Analyzer {
+public class IOperCategoryAnalyzer extends Analyzer {
     /**
      * Class constructor.
      */
-    public IOperStationAnalyzer (String record) {
+    public IOperCategoryAnalyzer (String record) {
         analyse(record);
     }
 
@@ -17,12 +17,12 @@ public class IOperStationAnalyzer extends Analyzer {
      */
     private void analyse(String record) {
         String[] tokens = record.split(",");
-        String station = tokens[1];
+        String category = tokens[3];
         String direction = tokens[4];
 
         if(Objects.equals(direction, "vers sortie") || Objects.equals(direction, "vers entree")) {
             super.analyzable = true;
-            super.key = station;
+            super.key = category;
             super.value = direction;
         } else {
             super.analyzable = false;
