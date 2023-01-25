@@ -29,6 +29,8 @@ public class DataAnalyzer {
             return new IOperStationAnalyzer(record);
         } else if (Objects.equals(analysisId, "speed_per_category")) {
             return new SpeedPerCatAnalyzer(record);
+        } else if (Objects.equals(analysisId, "category_per_direction")) {
+            return new CatPerDirectionAnalyzer(record);
         } else {
             throw new InvalidParameterException("Invalid analysis id : " + analysisId);
         }
@@ -45,6 +47,8 @@ public class DataAnalyzer {
             return IOperStationAnalyzer.produce(values);
         } else if (Objects.equals(analysisId, "speed_per_category")) {
             return SpeedPerCatAnalyzer.produce(values);
+        } else if (Objects.equals(analysisId, "category_per_direction")) {
+            return CatPerDirectionAnalyzer.produce(values);
         } else {
             throw new InvalidParameterException("Invalid analysis id : " + analysisId);
         }
@@ -83,7 +87,8 @@ public class DataAnalyzer {
                 "io_per_hour",
                 "io_per_category",
                 "io_per_station",
-                "speed_per_category"
+                "speed_per_category",
+                "category_per_direction"
         };
 
         for(String analysisId : AnalysisArray) {

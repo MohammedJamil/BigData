@@ -4,11 +4,11 @@ import org.apache.hadoop.io.Text;
 
 import java.util.Objects;
 
-public class CatPerStationAnalyzer extends Analyzer{
+public class CatPerDirectionAnalyzer extends Analyzer{
     /**
      * Class constructor.
      */
-    public CatPerStationAnalyzer(String record) {
+    public CatPerDirectionAnalyzer(String record) {
         analyse(record);
     }
 
@@ -18,10 +18,10 @@ public class CatPerStationAnalyzer extends Analyzer{
     private void analyse(String record) {
         String[] tokens = record.split(",");
         String category = tokens[3];
-        String station = tokens[2];
+        String direction = tokens[4];
 
         super.analyzable = true;
-        super.key = station;
+        super.key = direction;
         super.value = category;
     }
 
