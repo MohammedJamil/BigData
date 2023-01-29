@@ -78,24 +78,26 @@ public class DataNormalizer {
     }
 
     public static class NormalizationMapper extends Mapper<Object, Text, NullWritable, Text> {
-        public String fileName;
-        private long nbRecord = 0;
+        private String fileName;
+        private Normalizer normalizer;
+
         @Override
-        public void map(Object key, Text value, Context context) throws IOException, InterruptedException {
+        protected void setup(Context context){
             InputSplit split = context.getInputSplit();
             if (split instanceof FileSplit) {
                 Path filePath = ((FileSplit) split).getPath();
                 fileName = filePath.getName();
             }
-
-            String line = value.toString();
             Configuration conf = context.getConfiguration();
             String station = conf.get(fileName);
-            Normalizer normalizer  = DataNormalizer.initializeNormalizer(station, fileName);
+            normalizer  = DataNormalizer.initializeNormalizer(station, fileName);
+        }
 
+        @Override
+        public void map(Object key, Text value, Context context) throws IOException, InterruptedException {
+            String line = value.toString();
             if (normalizer.isValid(line)) {
-                nbRecord++;
-                context.write(NullWritable.get(), new Text(nbRecord + "," + normalizer.normalize(line)));
+                context.write(NullWritable.get(), new Text(normalizer.normalize(line)));
             }
         }
     }

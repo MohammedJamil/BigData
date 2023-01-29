@@ -18,19 +18,19 @@ import java.util.Objects;
 
 public class DataAnalyzer {
 
-    public static Analyzer initializeAnalyzer(String analysisId, String record) {
+    public static Analyzer initializeAnalyzer(String analysisId) {
         if (Objects.equals(analysisId, "io_per_day")) {
-            return new IOPerDayAnalyzer(record);
+            return new IOPerDayAnalyzer();
         } else if (Objects.equals(analysisId, "io_per_hour")) {
-            return new IOPerHourAnalyzer(record);
+            return new IOPerHourAnalyzer();
         } else if (Objects.equals(analysisId, "io_per_category")) {
-            return new IOperCategoryAnalyzer(record);
+            return new IOperCategoryAnalyzer();
         } else if (Objects.equals(analysisId, "io_per_station")) {
-            return new IOperStationAnalyzer(record);
+            return new IOperStationAnalyzer();
         } else if (Objects.equals(analysisId, "speed_per_category")) {
-            return new SpeedPerCatAnalyzer(record);
+            return new SpeedPerCatAnalyzer();
         } else if (Objects.equals(analysisId, "category_per_direction")) {
-            return new CatPerDirectionAnalyzer(record);
+            return new CatPerDirectionAnalyzer();
         } else {
             throw new InvalidParameterException("Invalid analysis id : " + analysisId);
         }
@@ -55,13 +55,19 @@ public class DataAnalyzer {
     }
 
     public static class AnalysisMapper extends Mapper<Object, Text, Text, Text> {
-        public void map(Object key, Text value, Context context) throws IOException, InterruptedException {
-            String line = value.toString();
+        private Analyzer analyzer;
+
+        @Override
+        protected void setup(Context context) {
             Configuration conf = context.getConfiguration();
             String analysisId = conf.get("analysis_id");
-            Analyzer analyzer = DataAnalyzer.initializeAnalyzer(analysisId, line);
+            analyzer = DataAnalyzer.initializeAnalyzer(analysisId);
+        }
 
-            if (analyzer.isAnalyzable()) {
+        public void map(Object key, Text value, Context context) throws IOException, InterruptedException {
+            String line = value.toString();
+            analyzer.analyse(line);
+            if (analyzer.isToConsider()) {
                 context.write(new Text(analyzer.getKey()), new Text(analyzer.getValue()));
             }
         }

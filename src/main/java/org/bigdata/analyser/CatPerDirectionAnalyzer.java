@@ -8,17 +8,15 @@ public class CatPerDirectionAnalyzer extends Analyzer{
     /**
      * Class constructor.
      */
-    public CatPerDirectionAnalyzer(String record) {
-        analyse(record);
-    }
+    public CatPerDirectionAnalyzer() {}
 
     /**
      * Analyze to initialize analyzer.
      */
-    private void analyse(String record) {
+    public void analyse(String record) {
         String[] tokens = record.split(",");
-        String category = tokens[3];
-        String direction = tokens[4];
+        String category = tokens[2];
+        String direction = tokens[3];
 
         super.analyzable = true;
         super.key = direction;

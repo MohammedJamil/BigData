@@ -8,18 +8,16 @@ public class IOPerHourAnalyzer extends Analyzer{
     /**
      * Class constructor.
      */
-    public IOPerHourAnalyzer (String record) {
-        analyse(record);
-    }
+    public IOPerHourAnalyzer() {}
 
     /**
      * Analyze to initialize analyzer.
      */
-    private void analyse(String record) {
+    public void analyse(String record) {
         String[] tokens = record.split(",");
-        String hhmmss = tokens[2].split(" ")[1];
+        String hhmmss = tokens[1].split(" ")[1];
         String hour = hhmmss.split(":")[0];
-        String io = tokens[6];
+        String io = tokens[5];
 
         if(Objects.equals(io, "out") || Objects.equals(io, "in")) {
             super.analyzable = true;

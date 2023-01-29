@@ -8,17 +8,15 @@ public class IOPerDayAnalyzer extends Analyzer{
     /**
      * Class constructor.
      */
-    public IOPerDayAnalyzer (String record) {
-        analyse(record);
-    }
+    public IOPerDayAnalyzer() {}
 
     /**
      * Analyze to initialize analyzer.
      */
-    private void analyse(String record) {
+    public void analyse(String record) {
         String[] tokens = record.split(",");
-        String date = tokens[2].split(" ")[0];
-        String io = tokens[6];
+        String date = tokens[1].split(" ")[0];
+        String io = tokens[5];
 
         if(Objects.equals(io, "out") || Objects.equals(io, "in")) {
             super.analyzable = true;

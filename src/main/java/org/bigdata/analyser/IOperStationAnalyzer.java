@@ -8,17 +8,15 @@ public class IOperStationAnalyzer extends Analyzer {
     /**
      * Class constructor.
      */
-    public IOperStationAnalyzer (String record) {
-        analyse(record);
-    }
+    public IOperStationAnalyzer() {}
 
     /**
      * Analyze to initialize analyzer.
      */
-    private void analyse(String record) {
+    public void analyse(String record) {
         String[] tokens = record.split(",");
-        String station = tokens[1];
-        String io = tokens[6];
+        String station = tokens[0];
+        String io = tokens[5];
 
         if(Objects.equals(io, "out") || Objects.equals(io, "in")) {
             super.analyzable = true;

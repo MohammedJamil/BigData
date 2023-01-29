@@ -8,17 +8,15 @@ public class IOperCategoryAnalyzer extends Analyzer {
     /**
      * Class constructor.
      */
-    public IOperCategoryAnalyzer (String record) {
-        analyse(record);
-    }
+    public IOperCategoryAnalyzer() {}
 
     /**
      * Analyze to initialize analyzer.
      */
-    private void analyse(String record) {
+    public void analyse(String record) {
         String[] tokens = record.split(",");
-        String category = tokens[3];
-        String io = tokens[6];
+        String category = tokens[2];
+        String io = tokens[5];
 
         if(Objects.equals(io, "out") || Objects.equals(io, "in")) {
             super.analyzable = true;

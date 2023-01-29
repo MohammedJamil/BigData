@@ -12,9 +12,15 @@ public abstract class Analyzer {
     /**
      * Tells if a record is to be considered in the analysis.
      */
-    public Boolean isAnalyzable(){
+    abstract public void analyse(String record);
+
+    /**
+     * Tells if a record is to be considered in the analysis.
+     */
+    public Boolean isToConsider(){
         return analyzable;
     }
+
 
     /**
      * Key Getter.

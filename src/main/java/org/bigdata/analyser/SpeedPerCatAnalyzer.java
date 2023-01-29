@@ -8,17 +8,15 @@ public class SpeedPerCatAnalyzer extends Analyzer{
     /**
      * Class constructor.
      */
-    public SpeedPerCatAnalyzer (String record) {
-        analyse(record);
-    }
+    public SpeedPerCatAnalyzer() {}
 
     /**
      * Analyze to initialize analyzer.
      */
-    private void analyse(String record) {
+    public void analyse(String record) {
         String[] tokens = record.split(",");
-        String category = tokens[3];
-        String speed = tokens[5];
+        String category = tokens[2];
+        String speed = tokens[4];
 
         super.analyzable = true;
         super.key = category;
