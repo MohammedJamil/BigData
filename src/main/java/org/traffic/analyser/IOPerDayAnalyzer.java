@@ -1,26 +1,26 @@
-package org.bigdata.analyser;
+package org.traffic.analyser;
 
 import org.apache.hadoop.io.Text;
 
 import java.util.Objects;
 
-public class IOperCategoryAnalyzer extends Analyzer {
+public class IOPerDayAnalyzer extends Analyzer{
     /**
      * Class constructor.
      */
-    public IOperCategoryAnalyzer() {}
+    public IOPerDayAnalyzer() {}
 
     /**
      * Analyze to initialize analyzer.
      */
     public void analyse(String record) {
         String[] tokens = record.split(",");
-        String category = tokens[2];
+        String date = tokens[1].split(" ")[0];
         String io = tokens[5];
 
         if(Objects.equals(io, "out") || Objects.equals(io, "in")) {
             super.analyzable = true;
-            super.key = category;
+            super.key = date;
             super.value = io;
         } else {
             super.analyzable = false;

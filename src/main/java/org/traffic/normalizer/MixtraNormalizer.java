@@ -1,4 +1,4 @@
-package org.bigdata.normalizer;
+package org.traffic.normalizer;
 
 import java.security.InvalidParameterException;
 import java.util.Objects;

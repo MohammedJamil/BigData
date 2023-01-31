@@ -1,4 +1,4 @@
-package org.bigdata;
+package org.traffic;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
@@ -10,7 +10,7 @@ import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.input.SequenceFileInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 import org.apache.hadoop.mapreduce.lib.output.SequenceFileOutputFormat;
-import org.bigdata.analyser.*;
+import org.traffic.analyser.*;
 
 import java.io.IOException;
 import java.security.InvalidParameterException;

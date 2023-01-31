@@ -1,4 +1,4 @@
-package org.bigdata.analyser;
+package org.traffic.analyser;
 
 public abstract class Analyzer {
 

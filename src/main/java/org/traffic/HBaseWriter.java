@@ -1,4 +1,4 @@
-package org.bigdata;
+package org.traffic;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;

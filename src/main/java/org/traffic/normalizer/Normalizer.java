@@ -1,4 +1,4 @@
-package org.bigdata.normalizer;
+package org.traffic.normalizer;
 
 public interface Normalizer {
     /**

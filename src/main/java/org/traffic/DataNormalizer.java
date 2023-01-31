@@ -1,4 +1,4 @@
-package org.bigdata;
+package org.traffic;
 
 import java.io.*;
 import java.security.InvalidParameterException;
@@ -18,8 +18,7 @@ import org.apache.hadoop.mapreduce.lib.input.FileSplit;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 import org.apache.hadoop.mapreduce.lib.input.TextInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.SequenceFileOutputFormat;
-import org.apache.hadoop.mapreduce.lib.output.TextOutputFormat;
-import org.bigdata.normalizer.*;
+import org.traffic.normalizer.*;
 
 enum StationType {CAMERA, MIXTRA, VIKINGS, TAGMASTER, UNKNOWN}
 
