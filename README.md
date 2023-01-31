@@ -54,3 +54,11 @@ $ hbase shell
 ```
 
 ## Dashboard
+
+Pour lancer le Dashboard et visualiser les résultats des analyses.
+
+```bash
+$ cd TrafficAnalyzer.Front
+$ npm install
+$ npm start
+```
